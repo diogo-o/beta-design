@@ -129,9 +129,31 @@ body[data-beta-page="boquilhas"] .sidebar{top:170px;z-index:20}
 body[data-beta-page="boquilhas"] .main{padding-top:200px}
 body[data-beta-page="admin"] .admin-header{height:76px}
 body[data-beta-page="admin"] .admin-nav{height:48px}
-body[data-beta-page="admin"] .beta-admin-settings{padding:20px;max-width:760px}
+body[data-beta-page="admin"] .beta-admin-settings{padding:24px;width:100%;max-width:none}
 body[data-beta-page="admin"] .beta-admin-settings h3{margin:0 0 8px}
-body[data-beta-page="admin"] .beta-admin-settings p{margin:0 0 18px}
+body[data-beta-page="admin"] .beta-admin-settings p{margin:0 0 20px}
+body[data-beta-page="admin"] .beta-admin-settings .dmo-field{max-width:100%}
+body[data-beta-page="admin"] .beta-admin-settings input{width:100%;min-height:42px;font-size:15px}
+body[data-beta-page="admin"] .beta-admin-settings .beta-settings-hint{margin:8px 0 0;color:var(--dmo-muted);font-size:13px}
+body[data-beta-page="admin"] .beta-settings-actions{display:flex;justify-content:flex-end;margin-top:22px}
 body[data-beta-page="controlo-hub"] .dmo-secondary-nav .beta-sub-link{display:inline-flex;align-items:center;white-space:nowrap;padding:0 8px;color:var(--dmo-muted);font-weight:700;text-decoration:none}
 body[data-beta-page="controlo-hub"] .dmo-secondary-nav .beta-sub-link:hover{color:var(--dmo-brand-600)}
 @media(max-width:720px){body[data-beta-page="boquilhas"] .app > .dmo-primary-nav,body[data-beta-page="boquilhas"] .app > .dmo-secondary-nav{padding-inline:14px}body[data-beta-page="boquilhas"] .sidebar{position:relative;top:auto;margin-top:170px}body[data-beta-page="boquilhas"] .main,body[data-beta-page="boquilhas"] .sidebar+.main{padding-top:22px}}
+
+/* One shell for the operational pages: the same logo, two rows and tab behavior. */
+html body .dmo-app-header :is(.dmo-app-header__logo,.beta-light-logo,.logo),
+html body .admin-header .admin-logo{width:44px;height:44px;object-fit:contain;border-radius:50%;flex:none}
+html body .dmo-primary-nav,html body .dmo-secondary-nav{position:sticky;left:auto;right:auto;top:0;display:flex;align-items:stretch;width:100%;margin:0;padding:0 24px;gap:22px;background:#fff;border-bottom:1px solid var(--dmo-border);overflow-x:auto;box-shadow:none}
+html body .dmo-primary-nav{height:48px;min-height:48px;z-index:34}
+html body .dmo-secondary-nav{top:48px;height:46px;min-height:46px;z-index:33}
+html body .dmo-primary-nav :is(a,button),html body .dmo-secondary-nav :is(a,button){display:inline-flex;align-items:center;justify-content:center;flex:none;min-width:max-content;height:100%;padding:0 5px;border:0;border-bottom:3px solid transparent;background:none;color:var(--dmo-muted);font-family:inherit;font-size:15px;font-weight:800;line-height:1.2;text-decoration:none;white-space:nowrap;cursor:pointer}
+html body .dmo-primary-nav :is(a,button):hover,html body .dmo-primary-nav :is(a,button).active,html body .dmo-secondary-nav :is(a,button):hover,html body .dmo-secondary-nav :is(a,button).active{color:var(--dmo-brand-700);border-bottom-color:var(--dmo-brand-600);background:none}
+body[data-beta-page="boquilhas"] .app>.dmo-app-header{position:relative;inset:auto;z-index:35;height:76px}
+body[data-beta-page="boquilhas"] .app>.dmo-primary-nav{position:sticky;top:0;left:auto;right:auto;padding:0 24px;gap:22px}
+body[data-beta-page="boquilhas"] .app>.dmo-secondary-nav{position:sticky;top:48px;left:auto;right:auto;padding:0 24px;gap:22px}
+body[data-beta-page="boquilhas"] .sidebar{position:sticky;float:left;top:94px;bottom:auto;width:276px;height:calc(100vh - 94px);z-index:20}
+body[data-beta-page="boquilhas"] .main{margin-left:276px;padding:26px 30px 40px}
+@media(max-width:980px) and (min-width:721px){body[data-beta-page="boquilhas"] .sidebar{width:235px}body[data-beta-page="boquilhas"] .main{margin-left:235px}}
+@media(max-width:720px){html body .dmo-primary-nav,html body .dmo-secondary-nav,body[data-beta-page="boquilhas"] .app>.dmo-primary-nav,body[data-beta-page="boquilhas"] .app>.dmo-secondary-nav{padding-inline:14px;gap:14px}html body .dmo-primary-nav :is(a,button),html body .dmo-secondary-nav :is(a,button){font-size:14px}body[data-beta-page="boquilhas"] .sidebar{position:relative;float:none;top:auto;width:100%;height:auto;margin:0}body[data-beta-page="boquilhas"] .main,body[data-beta-page="boquilhas"] .sidebar+.main{margin:0;padding:22px 14px 30px}}
+body[data-beta-page="admin"] .admin-nav{gap:22px;padding-inline:24px}
+body[data-beta-page="admin"] .admin-nav button{font-size:15px;font-weight:800;cursor:pointer}

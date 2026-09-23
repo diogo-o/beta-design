@@ -6,3 +6,5 @@ Pesquisa boquilha ou lote primeiro. Quando não há correspondência, oferece «
 
 ## Navegação
 O header e os separadores principais ocupam toda a largura. Os separadores de Registo, Boquilhas, Histórico e Definições ficam na linha seguinte. O painel das linhas de produção começa apenas abaixo destas duas linhas, preservando a navegação para Planeamento e Controlo.
+
+A barra de cada linha apresenta a referência da boquilha imediatamente seguida do lote (por exemplo, «T173 Lote 24/33»), antes da quantidade. O cabeçalho usa o logótipo BA Glass e os dois níveis de separadores seguem a tipografia, altura, estado ativo e comportamento de deslocação das restantes páginas operacionais.

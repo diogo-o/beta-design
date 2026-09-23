@@ -6,7 +6,7 @@ Esta descrição corresponde às páginas da versão publicada do Site e às not
 
 1. O login pede **Utilizador** e palavra-passe. Não apresenta o cartão «Acesso por Template».
 2. A barra principal mostra **Planeamento**, **Controlo** e **Boquilhas** conforme os módulos efetivos e a ordem do template. O Admin tem área própria. A autorização real é sempre validada pelo servidor.
-3. A segunda barra mostra apenas páginas do módulo ativo. Header e posição das barras são estáveis; o painel das linhas começa abaixo de ambas. Uma página de Boquilhas mantém a barra principal para regressar aos outros módulos.
+3. A segunda barra mostra apenas páginas do módulo ativo. Logótipo BA Glass, tamanho dos separadores, estados ativos e comportamento das duas barras são consistentes entre páginas; o painel das linhas começa abaixo de ambas. Uma página de Boquilhas mantém a barra principal para regressar aos outros módulos.
 4. Em tabelas, um clique seleciona a linha, ações ficam fora da tabela e o duplo clique abre a ficha quando aplicável.
 
 ## Planeamento — Job On
@@ -19,11 +19,11 @@ O Resumo é uma página do Controlo, ligada à produção selecionada. As págin
 
 ## Boquilhas
 
-Selecionar linha no painel abaixo das barras → Registo ou Boquilhas → procurar ferramenta/lote → selecionar a ficha. Duplo clique abre a ficha BQ existente; criação contextual de `tool_id` só é oferecida quando a procura não encontra ferramenta. O Histórico põe calendário e tabela lado a lado: escolher dia carrega os movimentos desse dia e combina com filtros; «Mostrar todos os dias» limpa a data. O separador Definições guarda a configuração de reparadores por linha na implementação real. Consultar `modulos/boquilhas/`.
+Selecionar linha no painel abaixo das barras → Registo ou Boquilhas → procurar ferramenta/lote → selecionar a ficha. Duplo clique abre a ficha BQ existente; criação contextual de `tool_id` só é oferecida quando a procura não encontra ferramenta. O Histórico põe calendário e tabela lado a lado: escolher dia carrega os movimentos desse dia e combina com filtros; «Mostrar todos os dias» limpa a data. O separador Definições guarda a configuração de reparadores por linha na implementação real. Em cada linha de produção, a referência da boquilha precede imediatamente o lote (por exemplo, «T173 Lote 24/33»). Consultar `modulos/boquilhas/`.
 
 ## Administração
 
-Utilizadores: pesquisar/filtrar → selecionar linha → editar ou reset fora da tabela; duplo clique abre ficha. Templates de acesso: lista → «Criar template» ou abrir existente → escolher módulos e ordem → guardar. Definições encaminha para gerir templates. O template efetivo define a apresentação, mas ações e rotas dependem da autorização no servidor. Consultar `modulos/admin/`.
+Utilizadores: pesquisar/filtrar → selecionar linha → editar ou reset fora da tabela; duplo clique abre ficha. Templates de acesso: lista → «Criar template» ou abrir existente → escolher módulos e ordem → guardar. Definições permite configurar o diretório local principal onde serão guardados os PDFs do Controlo. A gestão de templates pertence apenas ao separador Templates de acesso. No protótipo, o caminho fica em `localStorage`; a gravação efetiva dos PDFs pertence à aplicação. O template efetivo define a apresentação, mas ações e rotas dependem da autorização no servidor. Consultar `modulos/admin/`.
 
 ## Ferramentas
 

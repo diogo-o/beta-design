@@ -1,6 +1,6 @@
 # DMO Beta — versão visual publicada
 
-Versão do Site publicada em 23/09/2026: [`dmo-beta-frontend-lab`](https://dmo-beta-frontend-lab.dgains-00.chatgpt.site). Fonte: commit Sites `968a8b053ab9919b82405fa9aa571265d4649af0`.
+Versão do Site publicada em 23/09/2026: [`dmo-beta-frontend-lab`](https://dmo-beta-frontend-lab.dgains-00.chatgpt.site). Fonte: commit Sites `fc8e4146dd2907b1b07d53e30a0f26c1f0303c02`.
 
 - `dist/` contém uma cópia exata e executável das páginas, estilos, scripts e logótipo do Site. Abrir `dist/index.html` para percorrer o protótipo. Manter os ficheiros desta pasta juntos, pois os caminhos entre páginas são relativos.
 - `modulos/` associa cada página ao seu módulo e documenta como funciona.
