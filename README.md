@@ -28,9 +28,11 @@ Ferramentas is contextual in Beta. Do **not** invent a top-level Ferramentas des
 
 ## Start here
 
-1. `FRONTEND_RULES.md`
-2. `SHELL_AND_NAVIGATION.md`
-3. the relevant file under `modules/`
+1. `FRONTEND_DESIGN_MASTER.md` — single design handoff for Open Design / design agents.
+2. `LEGACY_SOURCE_MAP.md` — how to extract useful information from `modules/Unfinished/` without copying obsolete design.
+3. `FRONTEND_RULES.md`
+4. `SHELL_AND_NAVIGATION.md`
+5. the relevant file under `modules/`
 
 ## What belongs here
 
