@@ -174,3 +174,6 @@ body[data-beta-page="admin"] .beta-directory-picker{display:flex;gap:10px;align-
 body[data-beta-page="admin"] .beta-directory-picker input{flex:1;min-width:0;background:var(--dmo-subtle)}
 @media(max-width:850px){body[data-beta-page="admin"] .beta-template-workspace{grid-template-columns:1fr}}
 @media(max-width:650px){body[data-beta-page="admin"] .beta-directory-picker,body[data-beta-page="admin"] .beta-members-heading{align-items:stretch;flex-direction:column}}
+body[data-beta-page="admin"] .beta-user-detail-actions{justify-content:flex-start;flex-wrap:wrap;margin:16px -20px -20px}
+body[data-beta-page="admin"] .beta-user-detail-actions .danger{--button-color:var(--dmo-danger,#9a625d);margin-left:auto}
+@media(max-width:640px){body[data-beta-page="admin"] .beta-user-detail-actions .danger{margin-left:0}}

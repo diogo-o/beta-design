@@ -23,7 +23,7 @@ Selecionar linha no painel abaixo das barras → Registo ou Boquilhas → procur
 
 ## Administração
 
-Utilizadores: pesquisar/filtrar → selecionar linha → editar ou reset fora da tabela; duplo clique abre ficha. Criar/editar inclui o número de funcionário, usado no login demonstrativo. Templates de acesso: selecionar template → ver módulos e utilizadores associados → adicionar/remover utilizador ou editar nome, módulos e ordem. Definições permite escolher uma pasta pelo seletor do navegador para os PDFs do Controlo. A gestão de templates pertence apenas ao separador Templates de acesso. No protótipo, o caminho fica em `localStorage`; a gravação efetiva dos PDFs pertence à aplicação. O template efetivo define a apresentação, mas ações e rotas dependem da autorização no servidor. Consultar `modulos/admin/`.
+Utilizadores: pesquisar/filtrar → selecionar linha → «Abrir ficha» fora da tabela, ou duplo clique para abrir. Editar, reset de password e remover utilizador ficam dentro da ficha; remover pede confirmação e atualiza a lista e o template. Criar/editar inclui o número de funcionário, usado no login demonstrativo. Templates de acesso: selecionar template → ver módulos e utilizadores associados → adicionar/remover utilizador ou editar nome, módulos e ordem. Definições permite escolher uma pasta pelo seletor do navegador para os PDFs do Controlo. A gestão de templates pertence apenas ao separador Templates de acesso. No protótipo, o caminho fica em `localStorage`; a gravação efetiva dos PDFs pertence à aplicação. O template efetivo define a apresentação, mas ações e rotas dependem da autorização no servidor. Consultar `modulos/admin/`.
 
 ## Ferramentas
 

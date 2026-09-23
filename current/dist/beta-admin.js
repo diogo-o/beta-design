@@ -41,14 +41,13 @@
   const syncActions = () => {
     const user=currentUser();
     $('#selectedUserLabel').textContent=user?`${user.name} · Nº ${user.number}`:'Selecione um utilizador';
-    $('#editSelectedUser').disabled=!user;
-    $('#resetSelectedUser').disabled=!user;
+    $('#openSelectedUser').disabled=!user;
   };
 
   const table=$('#userRows');
   $('#users thead tr').innerHTML='<th>Nome</th><th>Nº funcionário</th><th>Email</th><th>Título / função</th><th>Template</th><th>Estado</th><th>Último acesso</th>';
-  $('#users .table-card').insertAdjacentHTML('beforeend','<div class="beta-table-actions"><span id="selectedUserLabel">Selecione um utilizador</span><button type="button" class="dmo-button" id="editSelectedUser" disabled>Editar utilizador</button><button type="button" class="dmo-button" id="resetSelectedUser" disabled>Reset password</button></div>');
-  $('#users').insertAdjacentHTML('beforeend','<section id="userDetailPage" class="dmo-card beta-user-detail" hidden><div class="page-head"><div><h2 id="userDetailName">Utilizador</h2><p>Ficha do utilizador selecionado</p></div><button type="button" class="dmo-button ghost" id="backUsers">Voltar aos utilizadores</button></div><div id="userDetailFields" class="beta-user-fields"></div><div class="beta-table-actions"><button type="button" class="dmo-button" id="editUserFromDetail">Editar utilizador</button></div></section>');
+  $('#users .table-card').insertAdjacentHTML('beforeend','<div class="beta-table-actions"><span id="selectedUserLabel">Selecione um utilizador</span><button type="button" class="dmo-button" id="openSelectedUser" disabled>Abrir ficha</button></div>');
+  $('#users').insertAdjacentHTML('beforeend','<section id="userDetailPage" class="dmo-card beta-user-detail" hidden><div class="page-head"><div><h2 id="userDetailName">Utilizador</h2><p>Ficha do utilizador selecionado</p></div><button type="button" class="dmo-button ghost" id="backUsers">Voltar aos utilizadores</button></div><div id="userDetailFields" class="beta-user-fields"></div><div class="beta-table-actions beta-user-detail-actions"><button type="button" class="dmo-button" id="editUserFromDetail">Editar utilizador</button><button type="button" class="dmo-button" id="resetUserFromDetail">Reset password</button><button type="button" class="dmo-button danger" id="removeUserFromDetail">Remover utilizador</button></div></section>');
   const detail=$('#userDetailPage');
   const listParts=[$('#users > .page-head'),$('#users > .toolbar'),$('#users .table-card')];
   const closeDetail=()=>{detail.hidden=true;listParts.forEach(part=>part.hidden=false)};
@@ -91,9 +90,16 @@
     $('#userModal').classList.add('open');
   };
   $('#newUser').onclick=()=>openUser(null);
-  $('#editSelectedUser').onclick=()=>{const user=currentUser();if(user)openUser(user)};
+  $('#openSelectedUser').onclick=()=>{const user=currentUser();if(user)showDetail(user)};
   $('#editUserFromDetail').onclick=()=>{const user=currentUser();if(user)openUser(user)};
-  $('#resetSelectedUser').onclick=()=>{const user=currentUser();if(user&&confirm(`Iniciar reset de password para ${user.name}?`))toast('Reset iniciado nesta demonstração')};
+  $('#resetUserFromDetail').onclick=()=>{const user=currentUser();if(user&&confirm(`Iniciar reset de password para ${user.name}?`))toast('Reset iniciado nesta demonstração')};
+  $('#removeUserFromDetail').onclick=()=>{
+    const user=currentUser();
+    if(!user||!confirm(`Remover ${user.name} (Nº ${user.number}) desta demonstração?`))return;
+    users=users.filter(item=>item.id!==user.id);
+    selectedUserId=null;selectedMemberId=null;
+    save();closeDetail();renderUsers();renderTemplates();toast('Utilizador removido nesta demonstração');
+  };
   form.onsubmit=event=>{
     event.preventDefault();const number=$('#editEmployeeNumber').value.trim();const email=$('#editEmail').value.trim();
     if(users.some(user=>user.id!==editingUserId&&user.number===number)){toast('Este número de funcionário já está atribuído');return}
