@@ -157,3 +157,20 @@ body[data-beta-page="boquilhas"] .main{margin-left:276px;padding:26px 30px 40px}
 @media(max-width:720px){html body .dmo-primary-nav,html body .dmo-secondary-nav,body[data-beta-page="boquilhas"] .app>.dmo-primary-nav,body[data-beta-page="boquilhas"] .app>.dmo-secondary-nav{padding-inline:14px;gap:14px}html body .dmo-primary-nav :is(a,button),html body .dmo-secondary-nav :is(a,button){font-size:14px}body[data-beta-page="boquilhas"] .sidebar{position:relative;float:none;top:auto;width:100%;height:auto;margin:0}body[data-beta-page="boquilhas"] .main,body[data-beta-page="boquilhas"] .sidebar+.main{margin:0;padding:22px 14px 30px}}
 body[data-beta-page="admin"] .admin-nav{gap:22px;padding-inline:24px}
 body[data-beta-page="admin"] .admin-nav button{font-size:15px;font-weight:800;cursor:pointer}
+/* Administration: template membership and a native folder chooser. */
+body[data-beta-page="admin"] [hidden]{display:none!important}
+body[data-beta-page="admin"] .beta-template-workspace{display:grid;grid-template-columns:minmax(260px,350px) minmax(0,1fr);gap:16px;align-items:start}
+body[data-beta-page="admin"] .beta-template-list{padding:12px}
+body[data-beta-page="admin"] .beta-template-item.selected{border-color:var(--dmo-brand-600);background:var(--dmo-brand-050)}
+body[data-beta-page="admin"] .beta-template-members{min-width:0;padding:22px}
+body[data-beta-page="admin"] .beta-members-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:18px}
+body[data-beta-page="admin"] .beta-members-heading h3{margin:0;font-size:20px}
+body[data-beta-page="admin"] .beta-members-heading p{margin:5px 0 0;color:var(--dmo-muted);font-size:13px}
+body[data-beta-page="admin"] .beta-template-members .dmo-table tr:not(:first-child){cursor:pointer}
+body[data-beta-page="admin"] .beta-template-members .dmo-table tr.selected{background:var(--dmo-brand-050)}
+body[data-beta-page="admin"] .beta-members-actions{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:18px}
+body[data-beta-page="admin"] .beta-members-actions select{flex:1 1 220px;min-height:40px;border:1px solid var(--dmo-border);border-radius:8px;padding:6px 10px;background:#fff}
+body[data-beta-page="admin"] .beta-directory-picker{display:flex;gap:10px;align-items:center}
+body[data-beta-page="admin"] .beta-directory-picker input{flex:1;min-width:0;background:var(--dmo-subtle)}
+@media(max-width:850px){body[data-beta-page="admin"] .beta-template-workspace{grid-template-columns:1fr}}
+@media(max-width:650px){body[data-beta-page="admin"] .beta-directory-picker,body[data-beta-page="admin"] .beta-members-heading{align-items:stretch;flex-direction:column}}

@@ -10,19 +10,9 @@
 .email-preview{display:none;margin-top:12px;padding:13px;background:#fff;border:1px solid var(--dmo-brand-200);border-left:4px solid var(--dmo-brand-600);border-radius:9px}.email-preview.open{display:block}.email-grid{display:grid;grid-template-columns:150px 1fr;gap:7px 12px;margin-top:10px}.email-grid span{color:var(--dmo-muted);font-size:11px}.email-grid strong{font-size:12px}.approved-message{margin-right:auto;color:var(--dmo-success);font-size:12px;font-weight:750}
 </style>
 <link rel="stylesheet" href="beta-adapter.css">
-</head>
+<link rel="stylesheet" href="beta-shell.css"><script src="beta-shell.js" defer></script></head>
 <body data-beta-page="controlo-approve">
-<header class="header dmo-app-header">
-<img class="logo" src="0_ASSET_LOGO.png" alt="BA">
-<div class="brand dmo-app-header__page">
-<h1>Controlo de Peso e Volume</h1>
-<p>Responsável</p>
-</div>
-<div class="user dmo-app-header__user">
-<strong>Ana Martins</strong>
-<span data-user-profile-title>Responsável de qualidade</span>
-</div>
-</header>
+<header class="dmo-shell-header" data-shell-module="Controlo" data-shell-user="Ana Martins" data-shell-role="Responsável de qualidade"></header>
 <nav class="dmo-primary-nav" aria-label="Tarefas principais"><a href="20_JOB_ON_01_VISUAL_AUTHORITY_job-on.html">Job On</a><a class="active" href="21_CONTROLO_01_VISUAL_AUTHORITY_controlo.html" aria-current="page">Controlo</a><a href="31_BOQUILHAS_01_VISUAL_AUTHORITY_boquilhas.html">Boquilhas</a></nav>
 <nav class="tabs dmo-secondary-nav" aria-label="Áreas do Controlo de Peso">
 <button>Aprovações</button>

@@ -726,20 +726,10 @@ th,td{padding:9px 10px}
 @media(max-width:520px){.context-grid{grid-template-columns:1fr}.context-jobon,.context-reference{grid-column:auto}}
 </style>
 <link rel="stylesheet" href="beta-adapter.css">
-</head>
+<link rel="stylesheet" href="beta-shell.css"><script src="beta-shell.js" defer></script></head>
 <body data-beta-page="pegamentos" class="app-shell">
 
-<header class="dmo-app-header">
-  <img class="dmo-app-header__logo" id="headerLogo" src="0_ASSET_LOGO.png" alt="BA Glass">
-  <div class="dmo-app-header__page">
-    <h1>Pegamentos</h1>
-    <p id="headerSub">Controlo dimensional · CM · BQ · MF</p>
-  </div>
-  <div class="dmo-app-header__user">
-    <strong data-user-profile-name>João Silva</strong>
-    <span data-user-profile-title>Metrologia</span>
-  </div>
-</header>
+<header class="dmo-shell-header" data-shell-module="Controlo" data-shell-user="João Silva" data-shell-role="Metrologia"></header>
 
 <nav class="dmo-primary-nav" aria-label="Tarefas principais"><a href="20_JOB_ON_01_VISUAL_AUTHORITY_job-on.html">Job On</a><a class="active" href="21_CONTROLO_01_VISUAL_AUTHORITY_controlo.html" aria-current="page">Controlo</a><a href="31_BOQUILHAS_01_VISUAL_AUTHORITY_boquilhas.html">Boquilhas</a></nav>
 
@@ -751,7 +741,7 @@ th,td{padding:9px 10px}
 
 <main>
 
-<section id="registo" class="tab-panel active">
+<section id="registo" class="tab-panel active"><span id="headerSub" hidden></span>
   <div id="contextCard" class="card context-card">
     <div class="section-heading">
       <div>
@@ -894,7 +884,7 @@ th,td{padding:9px 10px}
 
 <script>
 /* ---------------- constants ---------------- */
-const LOGO_DATA_URL = document.getElementById('headerLogo') ? document.getElementById('headerLogo').src : '';
+const LOGO_DATA_URL = new URL('0_ASSET_LOGO.png', location.href).href;
 const DB_KEY='pegamentosDB';
 const APP_VERSION=4;
 const NOMINAL_TOLERANCE=0.20;

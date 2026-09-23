@@ -23,8 +23,10 @@ Selecionar linha no painel abaixo das barras → Registo ou Boquilhas → procur
 
 ## Administração
 
-Utilizadores: pesquisar/filtrar → selecionar linha → editar ou reset fora da tabela; duplo clique abre ficha. Templates de acesso: lista → «Criar template» ou abrir existente → escolher módulos e ordem → guardar. Definições permite configurar o diretório local principal onde serão guardados os PDFs do Controlo. A gestão de templates pertence apenas ao separador Templates de acesso. No protótipo, o caminho fica em `localStorage`; a gravação efetiva dos PDFs pertence à aplicação. O template efetivo define a apresentação, mas ações e rotas dependem da autorização no servidor. Consultar `modulos/admin/`.
+Utilizadores: pesquisar/filtrar → selecionar linha → editar ou reset fora da tabela; duplo clique abre ficha. Criar/editar inclui o número de funcionário, usado no login demonstrativo. Templates de acesso: selecionar template → ver módulos e utilizadores associados → adicionar/remover utilizador ou editar nome, módulos e ordem. Definições permite escolher uma pasta pelo seletor do navegador para os PDFs do Controlo. A gestão de templates pertence apenas ao separador Templates de acesso. No protótipo, o caminho fica em `localStorage`; a gravação efetiva dos PDFs pertence à aplicação. O template efetivo define a apresentação, mas ações e rotas dependem da autorização no servidor. Consultar `modulos/admin/`.
 
 ## Ferramentas
 
 É um fluxo contextual lançado de Job On, Peso ou Boquilhas quando falta uma identidade de ferramenta. Selecionar tipo e preencher a ficha → concluir → regressar ao ecrã de origem mantendo o formulário anterior. Ferramentas não é um separador principal no Beta. Consultar `modulos/ferramentas/tool-create.md`.
+
+Os separadores «Peso» e «Pegamentos» na entrada de Controlo abrem diretamente as páginas completas. A seleção da pasta guarda um identificador local do navegador, que não revela o caminho absoluto nem liga por si só a geração real dos PDFs.

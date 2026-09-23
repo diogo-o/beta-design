@@ -35,56 +35,7 @@
     const id=document.querySelector('#email');
     if(id){id.type='text';id.removeAttribute('required');id.placeholder='Email de Admin ou número de funcionário';id.previousElementSibling.textContent='Utilizador';}
     const form=document.querySelector('#loginForm');
-    if(form)form.addEventListener('submit',e=>{e.preventDefault();e.stopImmediatePropagation();const value=(id?.value||'').toLowerCase();location.href=value.includes('admin')?'13_ADMIN_01_VISUAL_AUTHORITY_admin.html':value.includes('chefe')||value.includes('respons')?'23_PESO_RESPONSAVEL_01_VISUAL_AUTHORITY_peso-responsavel.html':'20_JOB_ON_01_VISUAL_AUTHORITY_job-on.html'},true);
-  }
-  if(page==='admin'){
-    document.querySelectorAll('.admin-nav button').forEach(b=>{if(['apps','audit'].includes(b.dataset.view))b.remove()});
-    document.querySelector('#apps')?.remove();document.querySelector('#audit')?.remove();
-    const adminNav=document.querySelector('.admin-nav');
-    adminNav?.insertAdjacentHTML('beforeend','<button type="button" data-view="settings">Definições</button>');
-    document.querySelector('.admin-main')?.insertAdjacentHTML('beforeend','<section class="admin-view" id="settings"><div class="page-head"><div><h2>Definições</h2><p>Localização dos ficheiros PDF do Controlo.</p></div></div><form class="dmo-card beta-admin-settings" id="controlPdfDirectoryForm"><h3>Diretório dos PDFs</h3><p>Defina a pasta local principal onde ficam os PDFs gerados em Controlo.</p><div class="dmo-field"><label for="controlPdfDirectory">Caminho do diretório</label><input id="controlPdfDirectory" type="text" placeholder="Ex.: D:\\DMO\\Controlo" autocomplete="off" required></div><p class="beta-settings-hint">A organização por referência e produção fica dentro deste diretório.</p><div class="beta-settings-actions"><button type="submit" class="dmo-button">Guardar diretório</button></div></form></section>');
-    const pdfDirectory=document.querySelector('#controlPdfDirectory');
-    pdfDirectory.value=localStorage.getItem('betaControlPdfDirectory')||'';
-    document.querySelector('#controlPdfDirectoryForm')?.addEventListener('submit',event=>{event.preventDefault();const value=pdfDirectory.value.trim();if(!value)return;localStorage.setItem('betaControlPdfDirectory',value);const notice=document.querySelector('#toast');notice.textContent='Diretório guardado nesta demonstração';notice.classList.add('show');setTimeout(()=>notice.classList.remove('show'),2200)});
-    adminNav?.querySelector('[data-view="settings"]')?.addEventListener('click',()=>{adminNav.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.dataset.view==='settings'));document.querySelectorAll('.admin-view').forEach(view=>view.classList.toggle('active',view.id==='settings'))});
-    const templatesView=document.querySelector('#templates');
-    if(templatesView){
-      const modules=[['jobon','Job On','Planeamento e produções'],['controlo-criar','Controlo Criar','Peso, Pegamentos, Resumo e Histórico'],['controlo-aprovar','Controlo Aprovar','Revisão e aprovação de Peso'],['boquilhas','Boquilhas','Movimentos e histórico de boquilhas'],['admin','Administração','Utilizadores e templates']];
-      const defaults=[{name:'Responsável operacional',modules:['jobon','controlo-aprovar','boquilhas']},{name:'Operador',modules:['jobon','controlo-criar','boquilhas']},{name:'Administração pura',modules:['admin']}];
-      let records;try{records=JSON.parse(localStorage.getItem('betaAccessTemplates')||'null')||defaults}catch(e){records=defaults}
-      let selected=-1;
-      templatesView.innerHTML=`<div class="page-head"><div><h2>Templates de acesso</h2><p>Escolha um template para consultar ou editar os módulos atribuídos.</p></div><button type="button" class="dmo-button" id="createAccessTemplate">Criar template</button></div><section class="beta-template-list dmo-card" id="accessTemplateList" aria-label="Templates existentes"></section><form class="beta-template-editor dmo-card" id="accessTemplateEditor" hidden><div class="page-head"><div><h3 id="templateFormHeading">Criar template</h3><p>Selecione os módulos a que este template dá acesso.</p></div><button class="dmo-button ghost" type="button" id="cancelAccessTemplate">Voltar à lista</button></div><div class="dmo-field"><label for="accessTemplateName">Nome do template</label><input id="accessTemplateName" required maxlength="80" placeholder="Ex.: Metrologia"></div><fieldset class="beta-template-options"><legend>Módulos atribuídos e ordem dos separadores</legend>${modules.map(([id,name,description])=>`<div class="beta-template-option" data-module="${id}"><label><input type="checkbox" name="module" value="${id}"><span><strong>${name}</strong><small>${description}</small></span></label><div class="beta-order-controls"><button type="button" data-move="up" aria-label="Subir ${name}">↑</button><button type="button" data-move="down" aria-label="Descer ${name}">↓</button></div></div>`).join('')}</fieldset><div class="beta-template-actions"><button class="dmo-button" type="submit" id="saveAccessTemplate">Criar template</button></div></form>`;
-      const list=templatesView.querySelector('#accessTemplateList'),editor=templatesView.querySelector('#accessTemplateEditor');
-      const render=()=>{list.replaceChildren();records.forEach((record,index)=>{const button=document.createElement('button');button.type='button';button.className='beta-template-item';const title=document.createElement('strong');title.textContent=record.name;const count=document.createElement('span');count.textContent=`${record.modules.length} ${record.modules.length===1?'módulo':'módulos'}`;button.append(title,count);button.onclick=()=>open(index);list.append(button)})};
-      const open=index=>{selected=index;const record=records[index];editor.reset();editor.querySelector('#accessTemplateName').value=record?.name||'';editor.querySelectorAll('.beta-template-option').forEach(row=>{const id=row.dataset.module;row.querySelector('input').checked=!!record?.modules.includes(id);row.style.order=record?.modules.includes(id)?record.modules.indexOf(id):modules.length+modules.findIndex(item=>item[0]===id)});editor.querySelector('#templateFormHeading').textContent=index<0?'Criar template':'Editar template';editor.querySelector('#saveAccessTemplate').textContent=index<0?'Criar template':'Guardar alterações';list.hidden=true;editor.hidden=false;editor.querySelector('#accessTemplateName').focus()};
-      const close=()=>{editor.hidden=true;list.hidden=false;selected=-1};
-      editor.querySelectorAll('[data-move]').forEach(button=>button.onclick=()=>{const rows=[...editor.querySelectorAll('.beta-template-option')].sort((a,b)=>Number(a.style.order)-Number(b.style.order));const row=button.closest('.beta-template-option'),at=rows.indexOf(row),other=rows[at+(button.dataset.move==='up'?-1:1)];if(!other)return;const order=row.style.order;row.style.order=other.style.order;other.style.order=order});
-      templatesView.querySelector('#createAccessTemplate').onclick=()=>open(-1);
-      templatesView.querySelector('#cancelAccessTemplate').onclick=close;
-      editor.onsubmit=event=>{event.preventDefault();const name=editor.querySelector('#accessTemplateName').value.trim();const chosen=[...editor.querySelectorAll('.beta-template-option')].sort((a,b)=>Number(a.style.order)-Number(b.style.order)).filter(row=>row.querySelector('input').checked).map(row=>row.dataset.module);if(!name||!chosen.length){if(!chosen.length)alert('Selecione pelo menos um módulo.');return}if(records.some((record,index)=>index!==selected&&record.name.toLocaleLowerCase('pt-PT')===name.toLocaleLowerCase('pt-PT'))){alert('Já existe um template com esse nome.');return}if(selected<0)records.push({name,modules:chosen});else records[selected]={name,modules:chosen};localStorage.setItem('betaAccessTemplates',JSON.stringify(records));localStorage.setItem('betaActiveTemplate',name);render();close();document.querySelector('#toast').textContent='Template atualizado nesta demonstração';document.querySelector('#toast').classList.add('show');setTimeout(()=>document.querySelector('#toast')?.classList.remove('show'),2200)};
-      render();
-    }
-    // Selection and actions live outside the user table. Double click opens the user form.
-    const userTable=document.querySelector('#userRows');
-    if(userTable){
-      document.querySelector('#users thead th:last-child')?.remove();
-      userTable.querySelectorAll('tr').forEach(row=>row.lastElementChild?.querySelector('.row-actions')?.closest('td')?.remove());
-      const card=document.querySelector('#users .table-card');
-      card?.insertAdjacentHTML('beforeend','<div class="beta-table-actions"><span id="selectedUserLabel">Selecione um utilizador</span><button type="button" class="dmo-button" id="editSelectedUser" disabled>Editar utilizador</button><button type="button" class="dmo-button" id="resetSelectedUser" disabled>Reset password</button></div>');
-      const usersSection=document.querySelector('#users');
-      const usersHeader=usersSection.querySelector(':scope > .page-head'),usersToolbar=usersSection.querySelector(':scope > .toolbar');
-      usersSection.insertAdjacentHTML('beforeend','<section id="userDetailPage" class="dmo-card beta-user-detail" hidden><div class="page-head"><div><h2 id="userDetailName">Utilizador</h2><p>Ficha do utilizador selecionado</p></div><button type="button" class="dmo-button ghost" id="backUsers">Voltar aos utilizadores</button></div><div id="userDetailFields" class="beta-user-fields"></div><div class="beta-table-actions"><button type="button" class="dmo-button" id="editUserFromDetail">Editar utilizador</button></div></section>');
-      const detailPage=document.querySelector('#userDetailPage');
-      document.querySelector('#backUsers').onclick=()=>{detailPage.hidden=true;usersHeader.hidden=false;usersToolbar.hidden=false;card.hidden=false};
-      let selectedUser=null;
-      const choose=row=>{selectedUser=row;userTable.querySelectorAll('tr').forEach(item=>{item.classList.toggle('selected',item===row);item.setAttribute('aria-selected',String(item===row))});document.querySelector('#selectedUserLabel').textContent=row.cells[0].textContent.trim();document.querySelector('#editSelectedUser').disabled=false;document.querySelector('#resetSelectedUser').disabled=false};
-      const showDetail=()=>{if(!selectedUser)return;const cells=[...selectedUser.cells];document.querySelector('#userDetailName').textContent=cells[0].textContent.trim();const labels=['Nome','Email','Título / função','Template','Estado','Último acesso'];const fields=document.querySelector('#userDetailFields');fields.replaceChildren();cells.forEach((cell,index)=>{const box=document.createElement('div'),label=document.createElement('span'),value=document.createElement('strong');label.textContent=labels[index];value.textContent=cell.textContent.trim();box.append(label,value);fields.append(box)});usersHeader.hidden=true;usersToolbar.hidden=true;card.hidden=true;detailPage.hidden=false};
-      const edit=()=>{if(!selectedUser)return;document.querySelector('#userModalTitle').textContent='Editar utilizador';document.querySelector('#editName').value=selectedUser.cells[0].textContent.trim();document.querySelector('#editEmail').value=selectedUser.cells[1].textContent.trim();document.querySelector('#editLabel').value=selectedUser.cells[2].textContent.trim();document.querySelector('#userModal').classList.add('open')};
-      userTable.querySelectorAll('tr').forEach(row=>{row.tabIndex=0;row.onclick=()=>choose(row);row.ondblclick=()=>{choose(row);showDetail()};row.onkeydown=e=>{if(e.key==='Enter'){choose(row);showDetail()}else if(e.key===' '){e.preventDefault();choose(row)}}});
-      document.querySelector('#editSelectedUser').onclick=edit;document.querySelector('#editUserFromDetail').onclick=edit;
-      document.querySelector('#resetSelectedUser').onclick=()=>{if(selectedUser&&confirm(`Iniciar reset de password para ${selectedUser.cells[0].textContent.trim()}?`)){const notice=document.querySelector('#toast');notice.textContent='Reset iniciado';notice.classList.add('show');setTimeout(()=>notice.classList.remove('show'),2200)}};
-    }
-    document.querySelector('.admin-user')?.insertAdjacentHTML('beforeend','<div class="beta-user-nav"><a href="12_LOGIN_01_VISUAL_AUTHORITY_login.html">Sair</a></div>');
+    if(form)form.addEventListener('submit',e=>{e.preventDefault();e.stopImmediatePropagation();const value=(id?.value||'').trim().toLowerCase();let users=[],templates=[];try{users=JSON.parse(localStorage.getItem('betaUsers')||'[]');templates=JSON.parse(localStorage.getItem('betaAccessTemplates')||'[]')}catch{}const user=users.find(item=>item.number===value||item.email.toLowerCase()===value);if(user?.state==='Inativo'){alert('Utilizador inativo nesta demonstração.');return}const modules=templates.find(item=>item.name===user?.template)?.modules||[];location.href=modules.includes('admin')||value.includes('admin')?'13_ADMIN_01_VISUAL_AUTHORITY_admin.html':modules.includes('controlo-aprovar')||value.includes('chefe')||value.includes('respons')?'23_PESO_RESPONSAVEL_01_VISUAL_AUTHORITY_peso-responsavel.html':'20_JOB_ON_01_VISUAL_AUTHORITY_job-on.html'},true);
   }
   if(page==='controlo-hub'){
     document.querySelector('#openResumo')?.addEventListener('click',()=>location.href='resumo.html');
@@ -94,13 +45,11 @@
     });
   }
   if(page==='controlo-create'){
-    const brand=document.querySelector('.brand p');if(brand)brand.textContent='Controlo Criar';
     const tabs=document.querySelector('.tabs');
     if(tabs){tabs.insertAdjacentHTML('beforeend','<a class="beta-sub-link" href="24_PEGAMENTOS_01_VISUAL_AUTHORITY_pegamentos.html">Pegamentos</a><a class="beta-sub-link" href="resumo.html">Resumo</a>');}
     if(new URLSearchParams(location.search).get('view')==='settings')document.querySelector('.tab[data-view="settings"]')?.click();
   }
   if(page==='controlo-approve'){
-    const brand=document.querySelector('.brand p');if(brand)brand.textContent='Controlo Aprovar';
     const head=document.querySelector('.page-head p');if(head)head.textContent='Controlos submetidos para decisão do responsável autorizado.';
   }
   if(page==='pegamentos'){
