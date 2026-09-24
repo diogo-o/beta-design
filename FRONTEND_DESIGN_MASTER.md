@@ -232,9 +232,11 @@ Current DMO-MODULAR includes separate real surfaces for:
 
 ### Primary concept
 
-Job On should feel like **one production workspace**, even if implementation uses multiple routes.
+Job On is the **centre of production planning**. It establishes the production identity/context and the CM/MF/BQ production snapshots that downstream modules consume.
 
-The redesign should visually unify those routes.
+Job On should feel like **one production workspace**, even if implementation uses multiple routes. The redesign should visually unify those routes without turning Job On into the owner of other modules' outputs.
+
+Downstream modules should be populated from the Job On context where the required facts are already known. The operator should not re-enter machine/reference/lot/process/Tool context merely because they changed module.
 
 ### KEEP
 
@@ -336,14 +338,13 @@ Recover useful operational presentation patterns:
 
 ### CHANGE
 
-Old "Operador" and "Responsável" pages should not become two unrelated design systems.
+Controlo Create and Controlo Approve are distinct functional modules even when they share the visible Controlo destination.
 
-Build one canonical Peso presentation:
+Do not force them into one page or one workflow merely because some information looks similar. Reuse visual components, read models or layout patterns only where that genuinely simplifies implementation without distorting the workflow.
 
-- editable mode for Create;
-- read/review mode for Approve.
+Peso Create and Peso Approve may therefore have substantially different functional pages.
 
-The visual order, terminology and facts should remain consistent across modes.
+For a Job On production, Controlo enters through the **Resumo for that production**. From that Resumo, Peso receives the already-known CM production context automatically.
 
 ### REMOVE
 
@@ -359,13 +360,18 @@ The visual order, terminology and facts should remain consistent across modes.
 
 #### Production context
 
-Persistent compact context:
+The production context comes from Job On and should be populated automatically where already known.
+
+For Peso this includes the applicable:
 
 - Referência;
 - production;
 - machine/line;
-- processo when supplied;
+- processo;
+- lote;
 - CM and relevant Tool context.
+
+The UI should not ask the operator to re-enter those values just to begin the Peso workflow.
 
 #### Peso
 
@@ -408,11 +414,13 @@ Missing optional Pegamentos is normal.
 
 Keep them conceptually distinct.
 
+The Resumo is the production-facing entry point for Controlo: a selected Job On/production populates the Resumo, and the Resumo leads into the applicable controls for that production.
+
 Their availability states should be visible without pretending a missing optional output is a failure.
 
 #### Approve
 
-Reuse the same Peso/Folha representation in review mode.
+Use the same production truth and reuse presentation only where useful; do not require Approve to be implemented as a mode of the Create page.
 
 Add:
 
