@@ -726,7 +726,7 @@ th,td{padding:9px 10px}
 @media(max-width:520px){.context-grid{grid-template-columns:1fr}.context-jobon,.context-reference{grid-column:auto}}
 </style>
 <link rel="stylesheet" href="beta-adapter.css">
-<link rel="stylesheet" href="beta-shell.css"><script src="beta-shell.js" defer></script></head>
+<link rel="stylesheet" href="beta-shell.css"><script src="beta-session.js" defer></script><script src="beta-flow.js" defer></script><script src="beta-shell.js" defer></script></head>
 <body data-beta-page="pegamentos" class="app-shell">
 
 <header class="dmo-shell-header" data-shell-module="Controlo" data-shell-user="João Silva" data-shell-role="Metrologia"></header>
@@ -920,10 +920,10 @@ function seedDB(){
   };
 }
 function loadDB(){
-  try{ return normalizeDB(JSON.parse(localStorage.getItem(DB_KEY))||seedDB()); }
+  try{ return normalizeDB(JSON.parse(sessionStorage.getItem(DB_KEY))||seedDB()); }
   catch(e){ return seedDB(); }
 }
-function saveDB(){ localStorage.setItem(DB_KEY, JSON.stringify(db)); }
+function saveDB(){ sessionStorage.setItem(DB_KEY, JSON.stringify(db)); }
 function normalizeDB(raw){
   const out = raw && typeof raw==='object' ? raw : seedDB();
   out.version = APP_VERSION;

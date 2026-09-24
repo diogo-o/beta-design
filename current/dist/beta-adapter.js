@@ -26,16 +26,19 @@
   if(page==='boquilhas'&&header&&primary&&header.contains(primary))header.insertAdjacentElement('afterend',primary);
   if(primary){
     primary.querySelectorAll('a').forEach(link=>{if((link.getAttribute('href')||'').includes('JOB_ON'))link.textContent='Planeamento'});
-    let chosen;try{const records=JSON.parse(localStorage.getItem('betaAccessTemplates')||'[]');chosen=records.find(item=>item.name===localStorage.getItem('betaActiveTemplate'))?.modules}catch(e){}
+    const chosen=window.betaDemoSession?.get()?.modules;
     const order=['jobon','controlo-criar','controlo-aprovar','boquilhas'];
     const position=href=>href.includes('JOB_ON')?'jobon':href.includes('CONTROLO')?'controlo-criar':href.includes('BOQUILHAS')?'boquilhas':'admin';
     [...primary.querySelectorAll('a')].sort((a,b)=>{const rank=x=>{const id=position(x.getAttribute('href')||'');return (chosen||order).findIndex(module=>module===id||(id==='controlo-criar'&&module==='controlo-aprovar'))};return (rank(a)<0?99:rank(a))-(rank(b)<0?99:rank(b))}).forEach(link=>primary.append(link));
   }
   if(page==='login'){
     const id=document.querySelector('#email');
-    if(id){id.type='text';id.removeAttribute('required');id.placeholder='Email de Admin ou número de funcionário';id.previousElementSibling.textContent='Utilizador';}
+    if(id){id.type='text';id.placeholder='Número de funcionário';id.previousElementSibling.textContent='Utilizador';}
     const form=document.querySelector('#loginForm');
-    if(form)form.addEventListener('submit',e=>{e.preventDefault();e.stopImmediatePropagation();const value=(id?.value||'').trim().toLowerCase();let users=[],templates=[];try{users=JSON.parse(localStorage.getItem('betaUsers')||'[]');templates=JSON.parse(localStorage.getItem('betaAccessTemplates')||'[]')}catch{}const user=users.find(item=>item.number===value||item.email.toLowerCase()===value);if(user?.state==='Inativo'){alert('Utilizador inativo nesta demonstração.');return}const modules=templates.find(item=>item.name===user?.template)?.modules||[];location.href=modules.includes('admin')||value.includes('admin')?'13_ADMIN_01_VISUAL_AUTHORITY_admin.html':modules.includes('controlo-aprovar')||value.includes('chefe')||value.includes('respons')?'23_PESO_RESPONSAVEL_01_VISUAL_AUTHORITY_peso-responsavel.html':'20_JOB_ON_01_VISUAL_AUTHORITY_job-on.html'},true);
+    form?.insertAdjacentHTML('beforeend','<div class="beta-demo-accounts"><strong>Contas para testar</strong><div class="beta-demo-account-list"></div><small>Palavra-passe das três contas: <code>Demo123</code>. Os dados desta demonstração ficam apenas na sessão do navegador.</small></div>');
+    const examples=form?.querySelector('.beta-demo-account-list');
+    window.betaDemoSession?.accounts.forEach(account=>{const button=document.createElement('button');button.type='button';button.className='beta-demo-account';button.innerHTML=`<strong>${account.title}</strong><span>Nº ${account.number} · ${account.template}</span>`;button.onclick=()=>{id.value=account.number;document.querySelector('#password').value='Demo123';id.focus()};examples.append(button)});
+    if(form)form.addEventListener('submit',e=>{e.preventDefault();e.stopImmediatePropagation();const value=(id?.value||'').trim();const account=window.betaDemoSession?.resolve(value);const message=document.querySelector('#formMessage');if(!account||document.querySelector('#password').value!=='Demo123'){message.textContent='Número ou palavra-passe de demonstração inválidos, ou utilizador inativo.';message.classList.add('show');return}window.betaDemoSession.set(account.number);location.href=account.home},true);
   }
   if(page==='controlo-hub'){
     document.querySelector('#openResumo')?.addEventListener('click',()=>location.href='resumo.html');

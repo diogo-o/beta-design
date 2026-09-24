@@ -22,10 +22,11 @@
   user.className = 'dmo-shell-user admin-user';
   const name = document.createElement('strong');
   name.dataset.userProfileName = '';
-  name.textContent = host.dataset.shellUser || 'Utilizador';
+  const demoUser=window.betaDemoSession?.get();
+  name.textContent = demoUser?.name || host.dataset.shellUser || 'Utilizador';
   const role = document.createElement('span');
   role.dataset.userProfileTitle = '';
-  role.textContent = host.dataset.shellRole || '';
+  role.textContent = demoUser?.title || host.dataset.shellRole || '';
   user.append(name, role);
 
   host.replaceChildren(logo, identity, user);

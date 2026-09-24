@@ -23,10 +23,10 @@
   ];
   const sampleUsers = [
     {id:'u1',number:'1001',name:'João Silva',email:'joao.silva@empresa.pt',title:'Chefe',template:'Responsável operacional',state:'Ativo',last:'14/08/2026 · 10:42'},
-    {id:'u2',number:'1002',name:'Ana Martins',email:'ana.martins@empresa.pt',title:'Engenheira',template:'Administração pura',state:'Ativo',last:'14/08/2026 · 09:16'},
-    {id:'u3',number:'1003',name:'Rui Costa',email:'rui.costa@empresa.pt',title:'Operador',template:'Operador',state:'Inativo',last:'12/08/2026 · 16:03'}
+    {id:'u2',number:'9000',name:'Admin DMO',email:'admin@empresa.pt',title:'Administração',template:'Administração pura',state:'Ativo',last:'Nunca'},
+    {id:'u3',number:'1003',name:'Rui Costa',email:'rui.costa@empresa.pt',title:'Operador',template:'Operador',state:'Ativo',last:'Nunca'}
   ];
-  const read = (key, fallback) => {try {const value=JSON.parse(localStorage.getItem(key));return Array.isArray(value)?value:fallback} catch {return fallback}};
+  const read = (key, fallback) => {try {const value=JSON.parse(sessionStorage.getItem(key));return Array.isArray(value)?value:fallback} catch {return fallback}};
   let templates = read(templateKey, defaults);
   let users = read(userKey, sampleUsers);
   let selectedUserId = null;
@@ -34,7 +34,7 @@
   let selectedMemberId = null;
   let editingUserId = null;
   let editingTemplateName = null;
-  const save = () => {localStorage.setItem(templateKey, JSON.stringify(templates));localStorage.setItem(userKey, JSON.stringify(users))};
+  const save = () => {sessionStorage.setItem(templateKey, JSON.stringify(templates));sessionStorage.setItem(userKey, JSON.stringify(users))};
   const toast = message => {const node=$('#toast');node.textContent=message;node.classList.add('show');setTimeout(()=>node.classList.remove('show'),2400)};
   const cell = (row, value) => {const td=document.createElement('td');td.textContent=value ?? '—';row.append(td)};
   const currentUser = () => users.find(user=>user.id===selectedUserId);

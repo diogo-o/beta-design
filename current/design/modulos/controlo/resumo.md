@@ -15,4 +15,4 @@ Título, estado, produção, Job On, CM, medições, Pegamentos e observações 
 
 Guardar o Job On cria ou atualiza a ficha de Resumo da referência e produção e abre essa ficha. O Resumo apresenta o estado das ferramentas CM, MF e BQ selecionadas, bem como Peso e Pegamentos em falta. As ações «Criar Peso» e «Criar Pegamentos» partem dessa ficha e transportam a referência e produção no URL. A pesquisa por referência e o seletor de produção permitem navegar entre Resumos anteriores.
 
-Nesta versão visual, os Resumos criados são guardados no `localStorage` do navegador. O estado «Em falta» não é alterado automaticamente ao abrir as páginas de Peso ou Pegamentos; essa associação e a geração de ficheiros PDF requerem a implementação de dados da aplicação.
+Nesta versão visual, os Resumos criados são guardados no `sessionStorage` do navegador. O estado «Em falta» não é alterado automaticamente ao abrir as páginas de Peso ou Pegamentos; essa associação e a geração de ficheiros PDF requerem a implementação de dados da aplicação.
