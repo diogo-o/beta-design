@@ -54,6 +54,7 @@
   }
   if(page==='controlo-approve'){
     const head=document.querySelector('.page-head p');if(head)head.textContent='Controlos submetidos para decisão do responsável autorizado.';
+    document.querySelector('.tabs.dmo-secondary-nav')?.insertAdjacentHTML('beforeend','<a class="beta-sub-link" href="resumo.html?mode=approve">Resumos</a>');
   }
   if(page==='pegamentos'){
     const tabs=document.querySelector('nav.tabs');
@@ -89,26 +90,10 @@
   if(['jobon','controlo-create','controlo-hub','pegamentos','boquilhas'].includes(page)){
     document.querySelector('.dmo-app-header__user,.user')?.insertAdjacentHTML('beforeend','<div class="beta-user-nav"><a href="12_LOGIN_01_VISUAL_AUTHORITY_login.html">Sair</a></div>');
   }
-  const origins={jobon:'20_JOB_ON_01_VISUAL_AUTHORITY_job-on.html','controlo-create':'22_PESO_OPERADOR_01_VISUAL_AUTHORITY_peso-operador.html','controlo-hub':'21_CONTROLO_01_VISUAL_AUTHORITY_controlo.html',boquilhas:'31_BOQUILHAS_01_VISUAL_AUTHORITY_boquilhas.html'};
-  function missingTool(input,container,type){
-    if(!input||!container)return;
-    const prompt=document.createElement('div');prompt.className='beta-tool-missing';prompt.hidden=true;
-    prompt.innerHTML='<strong>Ferramenta não encontrada</strong><span>Confirme a referência e o lote antes de criar uma ferramenta.</span><a class="dmo-button beta-create-tool" href="tool-create.html">Criar ferramenta</a>';
-    container.append(prompt);
-    const update=()=>{const query=input.value.trim().toLocaleLowerCase('pt-PT');const matches=[...container.querySelectorAll('tbody tr, .result:not(#notFound), .lot')].filter(row=>!row.classList.contains('hidden')&&!row.hidden&&row.textContent.toLocaleLowerCase('pt-PT').includes(query));prompt.hidden=!query||matches.length>0};
-    input.addEventListener('input',update);
-    prompt.querySelector('a').addEventListener('click',e=>{const url=new URL('tool-create.html',location.href);url.searchParams.set('from',page);url.searchParams.set('type',type);url.searchParams.set('reference',input.value.trim());e.currentTarget.href=url.href;sessionStorage.setItem('toolOriginDraft:'+page,JSON.stringify([...document.querySelectorAll('input,select,textarea')].map(el=>[el.id||el.name,el.value]).filter(x=>x[0])))});
-    update();
-  }
-  const savedDraft=sessionStorage.getItem('toolOriginDraft:'+page);
-  if(savedDraft&&new URLSearchParams(location.search).has('toolCreated')){try{JSON.parse(savedDraft).forEach(([key,value])=>{const field=document.getElementById(key)||document.querySelector(`[name="${CSS.escape(key)}"]`);if(field)field.value=value});sessionStorage.removeItem('toolOriginDraft:'+page)}catch(e){}}
-  if(page==='jobon')missingTool(document.querySelector('#inventoryPicker .picker-filters input'),document.querySelector('#inventoryPicker'), 'CM');
-  if(page==='controlo-hub')missingTool(document.querySelector('input[placeholder*=Pesquisar]'),document.querySelector('main'), 'CM');
-  if(page==='controlo-create')missingTool(document.querySelector('#refs .reference-list input'),document.querySelector('#refs .reference-list'), 'CM');
+  // Novas identidades Tool e lotes são criados exclusivamente no Job On.
   if(page==='boquilhas'){
-    const input=document.querySelector('#recordSearch'),container=document.querySelector('#recordResults');
-    missingTool(input,container,'BQ');
-    input?.addEventListener('input',()=>{container.querySelector('.beta-tool-missing').hidden=!input.value.trim()||document.querySelector('#notFound')?.classList.contains('hidden');});
+    for(const selector of ['#newLot','#newLotBatches']){const button=document.querySelector(selector);if(button){button.textContent='Abrir Job On';button.onclick=()=>location.href='20_JOB_ON_01_VISUAL_AUTHORITY_job-on.html'}}
+    document.querySelector('#inlineCreate')?.remove();
   }
   if(page==='controlo-approve'){
     document.querySelector('.dmo-app-header__user,.user')?.insertAdjacentHTML('beforeend','<div class="beta-user-nav"><a href="12_LOGIN_01_VISUAL_AUTHORITY_login.html">Sair</a></div>');

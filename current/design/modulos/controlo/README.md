@@ -2,7 +2,7 @@
 
 Páginas: `dist/21_CONTROLO_01_VISUAL_AUTHORITY_controlo.html` (entrada), `dist/22_PESO_OPERADOR_01_VISUAL_AUTHORITY_peso-operador.html` (criar), `dist/23_PESO_RESPONSAVEL_01_VISUAL_AUTHORITY_peso-responsavel.html` (aprovar), `dist/24_PEGAMENTOS_01_VISUAL_AUTHORITY_pegamentos.html` e `dist/resumo.html`.
 
-O Peso é registado para o CM selecionado. A pesquisa de referências no fluxo de criação oferece «Criar ferramenta» apenas sem correspondências; o regresso conserva os campos preenchidos. Controlo Criar e Controlo Aprovar são módulos de acesso distintos que partilham este destino visível; Aprovar não cria nem edita ferramentas ou ficheiros.
+O Peso recebe o CM, referência, lote, processo e máquina do contexto criado no Job On. A criação de ferramenta ausente ocorre apenas no Job On. Controlo Criar e Controlo Aprovar são módulos de acesso distintos que partilham este destino visível; Aprovar não cria nem edita ferramentas ou ficheiros.
 
 Peso, aprovação, Pegamentos, Resumo e entrada de Controlo partilham o mesmo componente de cabeçalho. O subtítulo do cabeçalho é sempre «Controlo»; contexto de uma ficha aparece no conteúdo da página.
 
