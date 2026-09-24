@@ -2245,7 +2245,6 @@ function buildStandaloneReport(rec){
 <body>
 <div class="toolbar"><button onclick="window.print()">Imprimir / Guardar PDF</button></div>
 <div class="page">${buildReportHTML(rec)}<div class="print-foot"><strong>Desenvolvido por Diogo Oliveira · 2026</strong></div></div>
-<script src="beta-adapter.js" defer></script>
 </body>
 </html>`;
 }
@@ -2321,9 +2320,9 @@ window.addEventListener('afterprint', ()=>{ document.getElementById('printArea')
 renderRecordArea();
 restoreMainFolderHandle();
 </script>
+<script src="beta-adapter.js" defer></script>
 </body>
 </html>
-
 
 
 
