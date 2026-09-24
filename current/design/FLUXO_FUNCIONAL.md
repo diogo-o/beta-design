@@ -14,6 +14,7 @@ A versão HTML usa identificadores e dados de exemplo na sessão do navegador. N
 ## Calendário e histórico no protótipo
 
 - No Job On, selecionar um dia mostra todas as referências e produções desse dia, identificadas por máquina. Um clique seleciona a produção; dois cliques abrem a folha. O painel lateral representa o estado atual das linhas e é independente do dia selecionado no calendário.
+- O calendário do Job On permite navegar entre meses e anos. Selecionar uma produção do dia e carregar em «Retirar do dia» remove apenas a associação à data; conserva o Job On e as ferramentas. A demonstração guarda essa alteração na sessão do navegador.
 - Job On e Boquilhas usam o mesmo componente de estado atual das linhas e o mesmo estilo de calendário. As produções de demonstração criadas no Job On aparecem no calendário e alimentam o contexto das Boquilhas, com dados temporários na sessão.
 - O Histórico das Boquilhas abre com todos os movimentos, sem referência ou dia pré-selecionado. Os filtros por referência, lote, linha, data, tipo e reparador são opcionais; o calendário permite selecionar um dia ou navegar por meses.
 - Uma nova referência numa linha do Job On envia um aviso temporário para Boquilhas com `jobon_id`, `bq_id`, Tool e linha. O módulo Boquilhas apresenta essa produção como candidata a associar ao registo da BQ exata, sem atribuição automática. Na demonstração, registos, associações e movimentos vivem apenas na sessão do navegador.
