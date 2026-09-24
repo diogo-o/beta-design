@@ -9,3 +9,10 @@
 A versão HTML usa identificadores e dados de exemplo na sessão do navegador. Não implementa autenticação, autorização, Tool canónica, persistência, PDFs reais nem backend.
 
 6. Boquilhas consulta as ferramentas e lotes associados no Job On e regista movimentos. Não cria a Tool nem lotes independentes; se não houver ferramenta, o percurso volta ao Job On.
+
+## Calendário e histórico no protótipo
+
+- No Job On, selecionar um dia mostra todas as referências e produções desse dia, identificadas por máquina. Um clique seleciona a produção; dois cliques abrem a folha. O painel lateral representa o estado atual das linhas e é independente do dia selecionado no calendário.
+- Job On e Boquilhas usam o mesmo componente de estado atual das linhas e o mesmo estilo de calendário. As produções de demonstração criadas no Job On aparecem no calendário e alimentam o contexto das Boquilhas, com dados temporários na sessão.
+- O Histórico das Boquilhas abre com todos os movimentos, sem referência ou dia pré-selecionado. Os filtros por referência, lote, linha, data, tipo e reparador são opcionais; o calendário permite selecionar um dia ou navegar por meses.
+- Para o Responsável, a ordem dos separadores de Controlo é Resumo, Aprovações e Histórico. O Histórico apresenta resumos concluídos em leitura; a decisão é feita nas Aprovações.
