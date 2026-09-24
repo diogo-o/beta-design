@@ -283,7 +283,7 @@
 <div class="embedded-compare-head">
 <div>
 <h3>Comparação com uma produção aprovada</h3>
-<p class="hint">Escolha e confirme a produção anterior. A tabela reutiliza os CM desta folha e compara o <strong>Peso do vidro</strong> de cada CM, sem médias de produção, volume ou capacidade.</p>
+<p class="hint">Escolha a produção anterior. Para cada CM, compare separadamente o peso do vidro (g) e o volume de água (cm³) com os respetivos valores anteriores.</p>
 </div>
 <div class="actions">
 <span class="comparison-status" id="embeddedComparisonStatus">Produção anterior por confirmar</span>
@@ -320,7 +320,7 @@
 </div>
 <div class="dmo-table-wrap">
 <table class="dmo-table compact-table">
-<thead><tr><th>CM atual</th><th>Peso do vidro atual</th><th>CM anterior</th><th>Peso do vidro anterior</th><th>Diferença</th><th>Variação</th></tr></thead>
+<thead><tr><th>CM atual</th><th>CM anterior</th><th>Peso atual (g)</th><th>Peso anterior (g)</th><th>Δ peso (g)</th><th>Volume atual (cm³)</th><th>Volume anterior (cm³)</th><th>Δ volume (cm³)</th></tr></thead>
 <tbody id="embeddedComparisonBody"></tbody>
 </table>
 </div>
@@ -743,16 +743,31 @@ document.querySelector('#addComparisonReading').onclick=addComparisonPair;
 document.querySelector('#removeComparisonReading').onclick=removeComparisonPair;
 
 const previousProductionReadings={
-  '202512':[{cm:'61',weight:231.78},{cm:'95',weight:230.05},{cm:'63',weight:230.92},{cm:'36',weight:231.20}],
-  '202411':[{cm:'18',weight:232.04},{cm:'42',weight:230.81},{cm:'57',weight:231.12},{cm:'72',weight:230.44}]
+  '202512':[{cm:'61',weight:231.78,volume:152.12},{cm:'95',weight:230.05,volume:151.04},{cm:'63',weight:230.92,volume:151.73},{cm:'36',weight:231.20,volume:151.91}],
+  '202411':[{cm:'18',weight:232.04,volume:152.33},{cm:'42',weight:230.81,volume:151.48},{cm:'57',weight:231.12,volume:151.82},{cm:'72',weight:230.44,volume:151.27}]
 };
 let confirmedPreviousProduction=null;
 function markEmbeddedComparisonStale(){const result=document.querySelector('#embeddedComparisonResult');if(!result?.classList.contains('ready'))return;document.querySelector('#sendApproval').disabled=true;document.querySelector('#embeddedComparisonStatus').textContent='Leituras alteradas — recriar tabela'}
-function updateEmbeddedComparisonRow(row){const current=Number(row.dataset.currentWeight),select=row.querySelector('select'),option=select.selectedOptions[0],previous=Number(option.dataset.weight),difference=current-previous,variation=previous?difference/previous*100:0,sign=difference>=0?'+':'';row.querySelector('[data-previous-weight]').textContent=`${formatPt(previous)} g`;const differenceCell=row.querySelector('[data-difference]'),variationCell=row.querySelector('[data-variation]');differenceCell.textContent=`${sign}${formatPt(difference)} g`;variationCell.textContent=`${sign}${formatPt(variation)}%`;differenceCell.className=variationCell.className=difference>=0?'difference-positive':'difference-negative'}
-function createEmbeddedComparison(){if(!confirmedPreviousProduction){say('Confirme primeiro a produção anterior');return}const previous=previousProductionReadings[confirmedPreviousProduction.production]||[];const readings=[...document.querySelectorAll('#readings .reading')].map(reading=>({cm:reading.querySelectorAll('input')[0]?.value||'—',weight:Number(reading.dataset.glassWeight)})).filter(item=>Number.isFinite(item.weight));const body=document.querySelector('#embeddedComparisonBody');body.innerHTML=readings.map((reading,index)=>{const options=previous.map((item,previousIndex)=>`<option value="${item.cm}" data-weight="${item.weight}" ${previousIndex===index%previous.length?'selected':''}>${item.cm}</option>`).join('');return `<tr data-current-weight="${reading.weight}"><td><strong>${reading.cm}</strong></td><td>${formatPt(reading.weight)} g</td><td class="embedded-prior-cm"><select aria-label="CM anterior associado a CM ${reading.cm}">${options}</select></td><td data-previous-weight></td><td data-difference></td><td data-variation></td></tr>`}).join('');body.querySelectorAll('tr').forEach(row=>{row.querySelector('select').addEventListener('change',()=>updateEmbeddedComparisonRow(row));updateEmbeddedComparisonRow(row)});document.querySelector('#embeddedComparisonEmpty').hidden=true;document.querySelector('#embeddedComparisonResult').classList.add('ready');document.querySelector('#sendApproval').disabled=false;document.querySelector('#embeddedComparisonStatus').textContent='Tabela criada · pronta para rever';say('Tabela criada com os CM atuais e o snapshot aprovado anterior')}
+function signed(value,unit){return `${value>=0?'+':''}${formatPt(value)} ${unit}`}
+function updateEmbeddedComparisonRow(row){const currentWeight=Number(row.dataset.currentWeight),currentVolume=Number(row.dataset.currentVolume),option=row.querySelector('select').selectedOptions[0],previousWeight=Number(option.dataset.weight),previousVolume=Number(option.dataset.volume);row.querySelector('[data-previous-weight]').textContent=`${formatPt(previousWeight)} g`;row.querySelector('[data-weight-difference]').textContent=signed(currentWeight-previousWeight,'g');row.querySelector('[data-previous-volume]').textContent=`${formatPt(previousVolume)} cm³`;row.querySelector('[data-volume-difference]').textContent=signed(currentVolume-previousVolume,'cm³')}
+function createEmbeddedComparison(){
+  if(!confirmedPreviousProduction){say('Confirme primeiro a produção anterior');return}
+  const previous=previousProductionReadings[confirmedPreviousProduction.production]||[];
+  const readings=[...document.querySelectorAll('#readings .reading')].map(reading=>({cm:reading.querySelector('input')?.value||'—',weight:Number(reading.dataset.glassWeight),volume:Number(reading.dataset.capacity)})).filter(item=>item.weight>0&&item.volume>0);
+  const body=document.querySelector('#embeddedComparisonBody');body.replaceChildren();
+  readings.forEach((reading,index)=>{
+    const row=document.createElement('tr');row.dataset.currentWeight=reading.weight;row.dataset.currentVolume=reading.volume;
+    const cell=(value)=>{const td=document.createElement('td');td.textContent=value;row.appendChild(td);return td};
+    cell(reading.cm);const selectorCell=document.createElement('td');row.appendChild(selectorCell);const selector=document.createElement('select');selector.setAttribute('aria-label',`CM anterior associado a CM ${reading.cm}`);previous.forEach((item,i)=>{const option=new Option(item.cm,item.cm,i===index%previous.length,i===index%previous.length);option.dataset.weight=item.weight;option.dataset.volume=item.volume;selector.add(option)});selectorCell.appendChild(selector);
+    cell(`${formatPt(reading.weight)} g`);cell('').dataset.previousWeight='';cell('').dataset.weightDifference='';cell(`${formatPt(reading.volume)} cm³`);cell('').dataset.previousVolume='';cell('').dataset.volumeDifference='';selector.addEventListener('change',()=>updateEmbeddedComparisonRow(row));updateEmbeddedComparisonRow(row);body.appendChild(row)
+  });
+  document.querySelector('#embeddedComparisonEmpty').hidden=true;document.querySelector('#embeddedComparisonResult').classList.add('ready');document.querySelector('#sendApproval').disabled=!readings.length;document.querySelector('#embeddedComparisonStatus').textContent=readings.length?'Tabela criada · pronta para rever':'Sem leituras válidas';say('Comparação de peso e volume criada por CM')
+}
 document.querySelector('#choosePreviousProduction').onclick=()=>document.querySelector('#previousProductionChooser').classList.toggle('open');
 document.querySelector('#confirmPreviousProduction').onclick=()=>{const select=document.querySelector('#previousProductionSelect'),option=select.selectedOptions[0];confirmedPreviousProduction={production:select.value,jobOnId:option.dataset.jobId,revisionId:option.dataset.revisionId,line:option.dataset.line,revision:option.dataset.revision};document.querySelector('#previousProductionLabel').textContent=`${select.value} · Linha ${option.dataset.line} · Revisão ${option.dataset.revision}`;document.querySelector('#previousProductionIdentity').textContent=`${option.dataset.jobId} · ${option.dataset.revisionId}`;document.querySelector('#embeddedComparisonStatus').textContent='Produção anterior confirmada';document.querySelector('#createEmbeddedComparison').disabled=false;document.querySelector('#sendApproval').disabled=true;document.querySelector('#embeddedComparisonResult').classList.remove('ready');document.querySelector('#embeddedComparisonEmpty').hidden=false;document.querySelector('#embeddedComparisonEmpty').textContent='Produção confirmada. Crie agora a tabela para associar os CM atuais aos CM anteriores.';document.querySelector('#previousProductionChooser').classList.remove('open');say(`Produção ${select.value} confirmada como base da comparação`)};
 document.querySelector('#createEmbeddedComparison').onclick=createEmbeddedComparison;
+function preparePesoPrint(){const readings=[...document.querySelectorAll('#embeddedComparisonBody tr')].map(row=>{const option=row.querySelector('select')?.selectedOptions[0];return {cm:row.cells[0].textContent,priorCm:option?.value,weight:Number(row.dataset.currentWeight),priorWeight:Number(option?.dataset.weight),volume:Number(row.dataset.currentVolume),priorVolume:Number(option?.dataset.volume)}});if(!readings.length)return;sessionStorage.setItem('dmoPesoPrint',JSON.stringify({reference:document.querySelector('.comparison-context strong')?.textContent||'9389T194',production:document.querySelector('.production-identity strong')?.textContent||'202601',previousProduction:confirmedPreviousProduction?.production,jobOnId:confirmedPreviousProduction?.jobOnId,readings,createdAt:new Date().toISOString()}))}
+document.querySelectorAll('a[href="22_PESO_OPERADOR_02_VISUAL_AUTHORITY_PRINT_peso.html"]').forEach(link=>link.addEventListener('click',preparePesoPrint));
 
 document.querySelectorAll('[data-close]').forEach(button=>button.onclick=()=>sheet.classList.remove('open'));
 document.querySelector('#newRef').onclick=document.querySelector('#createRefFromNew').onclick=document.querySelector('#editActiveRef').onclick=()=>{showView('refs');document.querySelector('#refEditor').classList.add('open')};
@@ -777,7 +792,6 @@ document.querySelector('#sendMail').onclick=()=>say('Email de produção prepara
 <script src="beta-adapter.js" defer></script>
 </body>
 </html>
-
 
 
 
