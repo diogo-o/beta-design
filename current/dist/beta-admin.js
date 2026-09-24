@@ -18,12 +18,11 @@
   const userKey = 'betaUsers';
   const defaults = [
     {name:'Responsável operacional',modules:['jobon','controlo-aprovar','boquilhas']},
-    {name:'Operador',modules:['jobon','controlo-criar','boquilhas']},
-    {name:'Administração pura',modules:['admin']}
+    {name:'Operador',modules:['jobon','controlo-criar','boquilhas']}
   ];
   const sampleUsers = [
     {id:'u1',number:'1001',name:'João Silva',email:'joao.silva@empresa.pt',title:'Chefe',template:'Responsável operacional',state:'Ativo',last:'14/08/2026 · 10:42'},
-    {id:'u2',number:'9000',name:'Admin DMO',email:'admin@empresa.pt',title:'Administração',template:'Administração pura',state:'Ativo',last:'Nunca'},
+    {id:'u2',number:'9000',name:'Admin DMO',email:'admin@empresa.pt',title:'Administração',template:null,isAdmin:true,state:'Ativo',last:'Nunca'},
     {id:'u3',number:'1003',name:'Rui Costa',email:'rui.costa@empresa.pt',title:'Operador',template:'Operador',state:'Ativo',last:'Nunca'}
   ];
   const read = (key, fallback) => {try {const value=JSON.parse(sessionStorage.getItem(key));return Array.isArray(value)?value:fallback} catch {return fallback}};
@@ -55,7 +54,7 @@
     selectedUserId=user.id;syncActions();
     $('#userDetailName').textContent=user.name;
     const fields=$('#userDetailFields');fields.replaceChildren();
-    [['Nome',user.name],['Número de funcionário',user.number],['Email',user.email],['Título / função',user.title],['Template',user.template||'Sem template'],['Estado',user.state],['Último acesso',user.last]].forEach(([label,value])=>{const box=document.createElement('div'),caption=document.createElement('span'),text=document.createElement('strong');caption.textContent=label;text.textContent=value;box.append(caption,text);fields.append(box)});
+    [['Nome',user.name],['Número de funcionário',user.number],['Email',user.email],['Título / função',user.title],['Acesso',user.isAdmin?'Administrador':user.template||'Sem template'],['Estado',user.state],['Último acesso',user.last]].forEach(([label,value])=>{const box=document.createElement('div'),caption=document.createElement('span'),text=document.createElement('strong');caption.textContent=label;text.textContent=value;box.append(caption,text);fields.append(box)});
     listParts.forEach(part=>part.hidden=true);detail.hidden=false;
   };
   $('#backUsers').onclick=closeDetail;
@@ -64,7 +63,7 @@
     table.replaceChildren();
     users.filter(user=>(state==='all'||user.state.toLowerCase()===(state==='active'?'ativo':'inativo'))&&(!search||[user.name,user.number,user.email,user.title,user.template].join(' ').toLocaleLowerCase('pt-PT').includes(search))).forEach(user=>{
       const row=document.createElement('tr');row.tabIndex=0;row.dataset.userId=user.id;row.classList.toggle('selected',user.id===selectedUserId);row.setAttribute('aria-selected',String(user.id===selectedUserId));
-      [user.name,user.number,user.email,user.title,user.template||'Sem template',user.state,user.last].forEach(value=>cell(row,value));
+      [user.name,user.number,user.email,user.title,user.isAdmin?'Administrador':user.template||'Sem template',user.state,user.last].forEach(value=>cell(row,value));
       row.onclick=()=>{selectedUserId=user.id;table.querySelectorAll('tr').forEach(item=>{item.classList.toggle('selected',item===row);item.setAttribute('aria-selected',String(item===row))});syncActions()};row.ondblclick=()=>showDetail(user);
       row.onkeydown=event=>{if(event.key==='Enter')showDetail(user);if(event.key===' '){event.preventDefault();selectedUserId=user.id;row.click()}};
       table.append(row);
@@ -86,7 +85,7 @@
     $('#userModalTitle').textContent=user?'Editar utilizador':'Criar utilizador';
     $('#editName').value=user?.name||'';$('#editEmail').value=user?.email||'';
     $('#editEmployeeNumber').value=user?.number||'';$('#editLabel').value=user?.title||'';
-    templateSelect.value=user?.template||'';$('#editUserState').value=user?.state||'Ativo';
+    templateSelect.value=user?.template||'';templateSelect.disabled=!!user?.isAdmin;$('#editUserState').value=user?.state||'Ativo';
     $('#userModal').classList.add('open');
   };
   $('#newUser').onclick=()=>openUser(null);
@@ -110,7 +109,7 @@
     $('#userModal').classList.remove('open');save();renderUsers();renderTemplates();if(!detail.hidden&&user)showDetail(user);toast('Utilizador guardado nesta demonstração');
   };
 
-  const moduleChoices=[['jobon','Planeamento · Job On'],['controlo-criar','Controlo Criar'],['controlo-aprovar','Controlo Aprovar'],['boquilhas','Boquilhas'],['admin','Administração']];
+  const moduleChoices=[['jobon','Planeamento · Job On'],['controlo-criar','Controlo Criar'],['controlo-aprovar','Controlo Aprovar'],['boquilhas','Boquilhas']];
   const templateView=$('#templates');
   templateView.innerHTML='<div class="page-head"><div><h2>Templates de acesso</h2><p>Consulte os utilizadores e módulos de cada template.</p></div><button class="dmo-button" type="button" id="createAccessTemplate">Criar template</button></div><div class="beta-template-workspace"><div class="beta-template-list dmo-card" id="accessTemplateList"></div><section class="dmo-card beta-template-members" id="templateMembers"></section></div><form class="beta-template-editor dmo-card" id="accessTemplateEditor" hidden><div class="page-head"><div><h3 id="templateFormHeading">Template</h3><p>Escolha os módulos e a ordem de apresentação.</p></div><button class="dmo-button ghost" type="button" id="cancelAccessTemplate">Voltar</button></div><div class="dmo-field"><label for="accessTemplateName">Nome do template</label><input id="accessTemplateName" required maxlength="80"></div><fieldset class="beta-template-options"><legend>Módulos atribuídos e ordem dos separadores</legend></fieldset><div class="beta-template-actions"><button class="dmo-button" type="submit" id="saveAccessTemplate">Guardar template</button></div></form>';
   const templateList=$('#accessTemplateList'),members=$('#templateMembers'),editor=$('#accessTemplateEditor');
@@ -132,7 +131,7 @@
     const tableWrap=document.createElement('div');tableWrap.className='dmo-table-wrap';const table=document.createElement('table');table.className='dmo-table';table.innerHTML='<thead><tr><th>Utilizador</th><th>Nº funcionário</th><th>Estado</th></tr></thead><tbody></tbody>';
     users.filter(user=>user.template===template.name).forEach(user=>{const row=document.createElement('tr');row.tabIndex=0;row.classList.toggle('selected',selectedMemberId===user.id);[user.name,user.number,user.state].forEach(value=>cell(row,value));row.onclick=()=>{selectedMemberId=user.id;table.tBodies[0].querySelectorAll('tr').forEach(item=>item.classList.toggle('selected',item===row));remove.disabled=false};row.ondblclick=()=>{$('#users').classList.add('active');templateView.classList.remove('active');nav.querySelector('[data-view="users"]').classList.add('active');nav.querySelector('[data-view="templates"]').classList.remove('active');showDetail(user)};table.tBodies[0].append(row)});
     tableWrap.append(table);members.append(tableWrap);
-    const actions=document.createElement('div');actions.className='beta-members-actions';const select=document.createElement('select');select.setAttribute('aria-label','Utilizador a adicionar');select.add(new Option('Selecionar utilizador',''));users.filter(user=>user.template!==template.name).forEach(user=>select.add(new Option(`${user.name} · Nº ${user.number}`,user.id)));
+    const actions=document.createElement('div');actions.className='beta-members-actions';const select=document.createElement('select');select.setAttribute('aria-label','Utilizador a adicionar');select.add(new Option('Selecionar utilizador',''));users.filter(user=>!user.isAdmin&&user.template!==template.name).forEach(user=>select.add(new Option(`${user.name} · Nº ${user.number}`,user.id)));
     const add=document.createElement('button');add.type='button';add.className='dmo-button';add.textContent='Adicionar utilizador';add.disabled=select.options.length<2;add.onclick=()=>{const user=users.find(item=>item.id===select.value);if(!user)return;user.template=template.name;save();renderUsers();renderTemplates();toast('Utilizador adicionado ao template')};
     const remove=document.createElement('button');remove.type='button';remove.className='dmo-button ghost';remove.textContent='Remover utilizador';remove.disabled=!selectedMemberId;remove.onclick=()=>{const user=users.find(item=>item.id===selectedMemberId);if(!user)return;user.template=null;selectedMemberId=null;save();renderUsers();renderTemplates();toast('Utilizador removido do template')};actions.append(select,add,remove);members.append(actions);
   };

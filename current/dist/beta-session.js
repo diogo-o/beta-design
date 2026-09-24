@@ -1,9 +1,9 @@
 /* Navigable demo identities. Session data disappears when the browser session ends. */
 (() => {
   const accounts = [
-    {number:'9000',name:'Admin DMO',role:'admin',title:'Administração',template:'Administração pura',home:'13_ADMIN_01_VISUAL_AUTHORITY_admin.html'},
-    {number:'1001',name:'João Silva',role:'chief',title:'Chefe',template:'Responsável operacional',home:'23_PESO_RESPONSAVEL_01_VISUAL_AUTHORITY_peso-responsavel.html'},
-    {number:'1003',name:'Rui Costa',role:'operator',title:'Operador',template:'Operador',home:'20_JOB_ON_01_VISUAL_AUTHORITY_job-on.html'}
+    {number:'9000',name:'Admin DMO',role:'admin',title:'Administração',template:null,modules:[],home:'13_ADMIN_01_VISUAL_AUTHORITY_admin.html'},
+    {number:'1001',name:'João Silva',role:'chief',title:'Chefe',template:'Responsável operacional',modules:['jobon','controlo-aprovar','boquilhas'],home:'23_PESO_RESPONSAVEL_01_VISUAL_AUTHORITY_peso-responsavel.html'},
+    {number:'1003',name:'Rui Costa',role:'operator',title:'Operador',template:'Operador',modules:['jobon','controlo-criar','boquilhas'],home:'20_JOB_ON_01_VISUAL_AUTHORITY_job-on.html'}
   ];
   const resolve = number => {
     let users,templates;
@@ -12,8 +12,8 @@
       const user=users.find(item=>item.number===number&&item.state==='Ativo');
       if(!user)return null;
       const modules=(Array.isArray(templates)?templates:[]).find(item=>item.name===user.template)?.modules||[];
-      if(!modules.length)return null;
-      const role=modules.includes('admin')?'admin':modules.includes('controlo-aprovar')?'chief':'operator';
+      if(!modules.length&&!user.isAdmin)return null;
+      const role=user.isAdmin?'admin':modules.includes('controlo-aprovar')?'chief':'operator';
       return {number:user.number,name:user.name,title:user.title||role,role,template:user.template,modules,home:role==='admin'?'13_ADMIN_01_VISUAL_AUTHORITY_admin.html':role==='chief'?'23_PESO_RESPONSAVEL_01_VISUAL_AUTHORITY_peso-responsavel.html':'20_JOB_ON_01_VISUAL_AUTHORITY_job-on.html'};
     }
     return accounts.find(account=>account.number===number)||null;
@@ -27,8 +27,9 @@
   if(!account){ location.replace('12_LOGIN_01_VISUAL_AUTHORITY_login.html'); return }
   const page=document.body.dataset.betaPage;
   if(page==='admin'&&account.role!=='admin'){location.replace(account.home);return}
-  if(page==='controlo-approve'&&account.role!=='chief'){location.replace(account.home);return}
-  if(page==='controlo-create'&&account.role==='chief'){location.replace(account.home);return}
+  if(page==='controlo-approve'&&!account.modules.includes('controlo-aprovar')){location.replace(account.home);return}
+  if((page==='controlo-create'||page==='pegamentos')&&!account.modules.includes('controlo-criar')){location.replace(account.home);return}
+  if(page==='controlo-hub'&&!account.modules.includes('controlo-criar')){location.replace(account.home);return}
   if(account.role==='admin'&&page!=='admin'){location.replace(account.home);return}
   document.querySelectorAll('.dmo-primary-nav a').forEach(link=>{
     const href=link.getAttribute('href')||'';
