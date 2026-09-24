@@ -54,9 +54,6 @@
   }
   if(page==='controlo-approve'){
     const head=document.querySelector('.page-head p');if(head)head.textContent='Controlos submetidos para decisão do responsável autorizado.';
-    const tabs=document.querySelector('.tabs.dmo-secondary-nav');
-    tabs?.insertAdjacentHTML('afterbegin','<a class="beta-sub-link" href="resumo.html?mode=approve">Resumo</a>');
-    tabs?.insertAdjacentHTML('beforeend','<a class="beta-sub-link" href="resumo.html?mode=approve&view=history">Histórico</a>');
   }
   if(page==='pegamentos'){
     const tabs=document.querySelector('nav.tabs');
