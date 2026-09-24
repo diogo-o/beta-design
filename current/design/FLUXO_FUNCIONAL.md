@@ -8,11 +8,12 @@
 
 A versão HTML usa identificadores e dados de exemplo na sessão do navegador. Não implementa autenticação, autorização, Tool canónica, persistência, PDFs reais nem backend.
 
-6. Boquilhas consulta as ferramentas e lotes associados no Job On e regista movimentos. Não cria a Tool nem lotes independentes; se não houver ferramenta, o percurso volta ao Job On.
+6. Boquilhas seleciona uma Tool BQ já registada e inicia o seu próprio registo de reparação/quantidades (`bq_repair_trace_id` na arquitetura). Pode fazê-lo antes de existir Job On. Quando o Job On cria o contexto `bq_id`, Boquilhas recebe um aviso contextual e mostra as produções recentes daquela Tool; a associação é confirmada por uma pessoa e pode ficar pendente sem bloquear movimentos. Boquilhas não cria uma nova identidade Tool; os movimentos pertencem ao registo de reparação.
 
 ## Calendário e histórico no protótipo
 
 - No Job On, selecionar um dia mostra todas as referências e produções desse dia, identificadas por máquina. Um clique seleciona a produção; dois cliques abrem a folha. O painel lateral representa o estado atual das linhas e é independente do dia selecionado no calendário.
 - Job On e Boquilhas usam o mesmo componente de estado atual das linhas e o mesmo estilo de calendário. As produções de demonstração criadas no Job On aparecem no calendário e alimentam o contexto das Boquilhas, com dados temporários na sessão.
 - O Histórico das Boquilhas abre com todos os movimentos, sem referência ou dia pré-selecionado. Os filtros por referência, lote, linha, data, tipo e reparador são opcionais; o calendário permite selecionar um dia ou navegar por meses.
+- Uma nova referência numa linha do Job On envia um aviso temporário para Boquilhas com `jobon_id`, `bq_id`, Tool e linha. O módulo Boquilhas apresenta essa produção como candidata a associar ao registo da BQ exata, sem atribuição automática. Na demonstração, registos, associações e movimentos vivem apenas na sessão do navegador.
 - Para o Responsável, a ordem dos separadores de Controlo é Resumo, Aprovações e Histórico. O Histórico apresenta resumos concluídos em leitura; a decisão é feita nas Aprovações.

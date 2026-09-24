@@ -2,7 +2,7 @@
 
 Página: `dist/31_BOQUILHAS_01_VISUAL_AUTHORITY_boquilhas.html`.
 
-A página consulta boquilhas e lotes já associados no Job On e regista movimentos e histórico. Se a ferramenta ou o lote não existir, o utilizador regressa ao Job On para criar/associar a Tool e iniciar a produção. Boquilhas não cria uma identidade de ferramenta nem um lote independente nesta versão; assim evita registos duplicados em módulos diferentes.
+A página seleciona uma Tool BQ existente para abrir um registo próprio de reparação/quantidades e guardar movimentos. Não cria identidades Tool; essa responsabilidade fica no catálogo de ferramentas. O registo pode começar antes da produção: sem um `bq_id` compatível, mostra «Job On por associar» e continua disponível. O Job On avisa quando uma referência muda numa linha; a produção correspondente é apenas uma sugestão para associar a BQ certa. A associação a um `bq_id` requer escolha explícita do utilizador, na criação ou mais tarde.
 
 ## Navegação
 O header e os separadores principais ocupam toda a largura. Os separadores de Registo, Boquilhas, Histórico e Definições ficam na linha seguinte. O painel das linhas de produção começa apenas abaixo destas duas linhas, preservando a navegação para Planeamento e Controlo.
