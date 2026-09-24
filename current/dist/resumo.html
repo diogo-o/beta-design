@@ -1,11 +1,26 @@
 <!doctype html>
-<html lang="pt-PT"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Resumo do controlo — DMO Beta</title><link rel="stylesheet" href="0_ASSET_CANONICAL_DESIGN_SYSTEM.css"><link rel="stylesheet" href="0_ASSET_SHELL.css"><link rel="stylesheet" href="beta-adapter.css"><link rel="stylesheet" href="beta-shell.css"><script src="beta-shell.js" defer></script></head>
-<body><header class="dmo-shell-header" data-shell-module="Controlo" data-shell-user="Diogo Oliveira" data-shell-role="Metrologia"></header>
-<nav class="dmo-primary-nav"><a href="20_JOB_ON_01_VISUAL_AUTHORITY_job-on.html">Planeamento</a><a class="active" href="21_CONTROLO_01_VISUAL_AUTHORITY_controlo.html">Controlo</a><a href="31_BOQUILHAS_01_VISUAL_AUTHORITY_boquilhas.html">Boquilhas</a></nav>
-<nav class="dmo-secondary-nav"><a class="beta-sub-link" href="22_PESO_OPERADOR_01_VISUAL_AUTHORITY_peso-operador.html">Peso</a><a class="beta-sub-link" href="24_PEGAMENTOS_01_VISUAL_AUTHORITY_pegamentos.html">Pegamentos</a><a class="beta-sub-link active" href="resumo.html">Resumo</a></nav>
-<main class="beta-summary"><a class="beta-back" href="22_PESO_OPERADOR_01_VISUAL_AUTHORITY_peso-operador.html">← Voltar ao Controlo Criar</a><article class="beta-summary-sheet"><header class="beta-summary-head"><div><h2>Resumo — 5447T137 / 202601</h2><p>Estado consolidado do controlo desta produção.</p></div><span class="dmo-pill pending">A aguardar aprovação</span></header>
-<section class="beta-context"><div><span>Referência</span><strong>5447T137</strong></div><div><span>Produção</span><strong>202601</strong></div><div><span>Máquina</span><strong>B3</strong></div><div><span>Processo</span><strong>NNPB</strong></div><div><span>Data</span><strong>23/09/2026</strong></div><div><span>Job On</span><strong>JO-202601-B3</strong></div></section>
-<section class="beta-summary-section"><h3>Peso e capacidade</h3><div class="beta-summary-grid"><div><span>CM</span><strong>5447 · Lote 04</strong></div><div><span>Peso publicado</span><strong>254,20 g</strong></div><div><span>Capacidade publicada</span><strong>330,00 ml</strong></div><div><span>Temperatura da água</span><strong>20,4 °C</strong></div></div><div class="dmo-table-wrap" style="margin-top:12px"><table class="dmo-table"><thead><tr><th>CM</th><th>Peso vazio</th><th>Peso com água</th><th>Capacidade</th><th>Peso do vidro</th><th>Estado</th></tr></thead><tbody><tr><td>01</td><td>252,41 g</td><td>582,66 g</td><td>330,25 ml</td><td>252,41 g</td><td><span class="dmo-pill active">Conforme</span></td></tr><tr><td>02</td><td>254,08 g</td><td>584,19 g</td><td>330,11 ml</td><td>254,08 g</td><td><span class="dmo-pill active">Conforme</span></td></tr><tr><td>03</td><td>255,12 g</td><td>585,35 g</td><td>330,23 ml</td><td>255,12 g</td><td><span class="dmo-pill pending">Verificar</span></td></tr></tbody></table></div></section>
-<section class="beta-summary-section"><h3>Comparação selecionada</h3><div class="beta-summary-grid"><div><span>Produção atual</span><strong>202601</strong></div><div><span>Produção anterior escolhida</span><strong>202512</strong></div><div><span>Maior diferença</span><strong>+0,48 g</strong></div><div><span>Resultado</span><strong>2 pares avaliados</strong></div></div></section>
-<section class="beta-summary-section"><h3>Pegamentos — conjunto usado nesta produção</h3><div class="beta-relation"><article><span>CM</span><strong>5447 · Lote 04</strong><small>tool_id CM</small></article><b>→</b><article><span>BQ</span><strong>T132 · Lote 04</strong><small>tool_id BQ</small></article><b>→</b><article><span>MF</span><strong>5447 · Lote 26</strong><small>tool_id MF</small></article></div><div class="dmo-table-wrap"><table class="dmo-table"><thead><tr><th>Relação medida</th><th>Valor nominal</th><th>Valor obtido</th><th>Diferença</th><th>Estado</th></tr></thead><tbody><tr><td>CM → BQ</td><td>0,30 mm</td><td>0,28 mm</td><td>−0,02 mm</td><td><span class="dmo-pill active">Conforme</span></td></tr><tr><td>BQ → MF</td><td>0,25 mm</td><td>0,27 mm</td><td>+0,02 mm</td><td><span class="dmo-pill active">Conforme</span></td></tr></tbody></table></div></section>
-<section class="beta-summary-section"><h3>Observações</h3><p>CM 03 próximo do limite superior. O aviso permanece para decisão do responsável no módulo Controlo Aprovar.</p></section><footer class="beta-summary-actions"><button class="dmo-button" onclick="print()">Imprimir / Guardar PDF</button><button class="dmo-button" onclick="alert('Resumo submetido com o Peso e Pegamentos associados.')">Submeter resumo</button></footer></article></main></body></html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Resumo do controlo — DMO Beta</title>
+<link rel="stylesheet" href="0_ASSET_CANONICAL_DESIGN_SYSTEM.css">
+<link rel="stylesheet" href="0_ASSET_SHELL.css">
+<link rel="stylesheet" href="beta-adapter.css">
+<link rel="stylesheet" href="beta-shell.css">
+<script src="beta-shell.js" defer></script><script src="beta-summary.js" defer></script>
+</head>
+<body>
+<header class="dmo-shell-header" data-shell-module="Controlo" data-shell-user="Diogo Oliveira" data-shell-role="Metrologia"></header>
+<nav class="dmo-primary-nav" aria-label="Módulos"><a href="20_JOB_ON_01_VISUAL_AUTHORITY_job-on.html">Planeamento</a><a class="active" aria-current="page" href="21_CONTROLO_01_VISUAL_AUTHORITY_controlo.html">Controlo</a><a href="31_BOQUILHAS_01_VISUAL_AUTHORITY_boquilhas.html">Boquilhas</a></nav>
+<nav class="dmo-secondary-nav" aria-label="Páginas de Controlo"><a href="22_PESO_OPERADOR_01_VISUAL_AUTHORITY_peso-operador.html">Peso</a><a href="24_PEGAMENTOS_01_VISUAL_AUTHORITY_pegamentos.html">Pegamentos</a><a class="active" aria-current="page" href="resumo.html">Resumo</a></nav>
+<main class="beta-summary">
+<a class="beta-back" href="21_CONTROLO_01_VISUAL_AUTHORITY_controlo.html">← Voltar ao Controlo</a>
+<section class="beta-summary-browser dmo-card" aria-label="Procurar resumos">
+  <div class="beta-summary-search"><label for="summaryReferenceSearch">Procurar Resumos por referência</label><input type="search" id="summaryReferenceSearch" autocomplete="off" placeholder="Ex.: 5447T173" aria-controls="summarySearchResults"></div>
+  <div class="beta-summary-production"><label for="summaryProduction">Resumos desta referência</label><select id="summaryProduction" aria-label="Produção da referência ativa"></select></div>
+  <p id="summarySearchResults" class="beta-summary-search-results" role="status" aria-live="polite" hidden></p>
+</section>
+<article class="beta-summary-sheet" id="summarySheet" aria-live="polite"></article>
+</main>
+</body>
+</html>

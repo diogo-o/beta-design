@@ -177,3 +177,15 @@ body[data-beta-page="admin"] .beta-directory-picker input{flex:1;min-width:0;bac
 body[data-beta-page="admin"] .beta-user-detail-actions{justify-content:flex-start;flex-wrap:wrap;margin:16px -20px -20px}
 body[data-beta-page="admin"] .beta-user-detail-actions .danger{--button-color:var(--dmo-danger,#9a625d);margin-left:auto}
 @media(max-width:640px){body[data-beta-page="admin"] .beta-user-detail-actions .danger{margin-left:0}}
+/* Search across summaries and switch production within the active reference. */
+.beta-summary-browser{display:grid;grid-template-columns:minmax(0,1fr) minmax(220px,300px);gap:14px;align-items:end;padding:16px 18px;margin-bottom:16px}
+.beta-summary-browser label{display:block;margin-bottom:6px;font-size:14px;font-weight:800}
+.beta-summary-browser :is(input,select){width:100%;min-height:42px;border:1px solid var(--dmo-border);border-radius:8px;background:#fff;padding:8px 10px;font-size:15px}
+.beta-summary-search-results{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px;margin:0;color:var(--dmo-muted)}
+.beta-summary-result{border:1px solid var(--dmo-brand-600);border-radius:8px;background:var(--dmo-brand-050);color:var(--dmo-brand-700);padding:8px 12px;font-weight:800;cursor:pointer}
+.beta-summary-result:hover,.beta-summary-result:focus-visible{background:var(--dmo-brand-100)}
+.beta-summary-search-results[hidden]{display:none}
+.beta-summary-state{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.beta-summary-state article{display:flex;align-items:center;gap:12px;padding:14px;border:1px solid var(--dmo-border);border-radius:8px}.beta-summary-state article span{font-weight:700}.beta-summary-state article strong{margin-right:auto}.beta-summary-tools{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:700px){.beta-summary-state{grid-template-columns:1fr}.beta-summary-state article{flex-wrap:wrap}.beta-summary-tools{grid-template-columns:1fr}}
+@media(max-width:700px){.beta-summary-browser{grid-template-columns:1fr}}
+@media print{.dmo-shell-header,.beta-summary-browser{display:none!important}}
