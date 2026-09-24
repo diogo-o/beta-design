@@ -49,6 +49,7 @@
    }));
    const summary={reference,production,machine:line,plannedDate:`2026-09-${String(day).padStart(2,'0')}`,process:chosen.CM.process,date:new Date().toLocaleDateString('pt-PT'),jobon:previous?.jobonId||id(),jobonId:previous?.jobonId||null,status:previous?.status||'Em preparação',contexts,tools:Object.fromEntries(selections.map(([type,tool])=>[type,`${tool.reference} · Lote ${tool.lot}`])),cm:`${chosen.CM.reference} · Lote ${chosen.CM.lot}`,mf:`${chosen.MF.reference} · Lote ${chosen.MF.lot}`,bq:`${chosen.BQ.reference} · Lote ${chosen.BQ.lot}`,weightStatus:previous?.weightStatus||'Em falta',gluingStatus:previous?.gluingStatus||'Em falta',observation:previous?.observation||'Resumo criado pelo Job On. Complete os controlos em falta.'};
    summary.jobonId=summary.jobon;
+   if(previous?.tamponGeometry)summary.tamponGeometry=previous.tamponGeometry;
    if(index>=0)saved[index]=summary;else saved.unshift(summary);
    sessionStorage.setItem('betaJobOnSummaries',JSON.stringify(saved));
    const activeOnLine=overview.records().filter(item=>item.line===line&&item.reference!==reference).sort((a,b)=>b.date.localeCompare(a.date))[0];
