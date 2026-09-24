@@ -16,7 +16,6 @@ Exemplos:
 - Peso recebe do `cm_id`/Job On máquina, referência, lote, processo e contexto CM;
 - Pegamentos recebe os contextos CM/MF/BQ necessários;
 - Boquilhas recebe o `bq_id` relevante quando existe contexto de produção;
-- Reparação Interna pode receber os `cm_id`/`mf_id` ativos para a máquina e produção.
 
 O utilizador não volta a introduzir dados que já estão definidos pelo planeamento.
 
